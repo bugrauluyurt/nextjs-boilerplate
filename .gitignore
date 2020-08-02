@@ -19,13 +19,13 @@
 .DS_Store
 *.pem
 .ssh
-yarn-error.log
 tmp
 bundle-stats.json
 .vscode
 .idea
 /dependency-graph.svg
 .history
+.eslintcache
 
 # debug
 npm-debug.log*
@@ -37,6 +37,16 @@ yarn-error.log*
 .env.development*
 .env.test.local
 .env.production*
+
+# Bundle Analyzer
+bundles
+bundle
+
+# Dist Folder
+dist
+
+# Serverless directories
+.serverless/
 
 # vercel
 .vercel

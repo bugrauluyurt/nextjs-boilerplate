@@ -1,8 +1,10 @@
 import React from "react";
-import '../styles/globals.css';
+import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+/* eslint-disable */
+const MyApp = ({ Component, pageProps }) => {
+    return <Component {...pageProps} />;
+};
 
-export default MyApp
+export default MyApp;
+/* eslint-enable */

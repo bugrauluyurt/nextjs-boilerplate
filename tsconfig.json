@@ -1,5 +1,20 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*": ["./pages/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@models/*": ["./src/models/*"],
+      "@context/*": ["./src/context/*"],
+      "@actions/*": ["./src/actions/*"],
+      "@services/*": ["./src/services/*"],
+      "@declarations/*": ["./src/declarations/*"],
+      "@interfaces/*": ["./src/declarations/*"],
+      "@types/*": ["./src/types/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@static/*": ["./public/static/*"]
+    },
     "target": "es5",
     "lib": [
       "dom",
