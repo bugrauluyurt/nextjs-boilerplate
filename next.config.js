@@ -2,11 +2,8 @@
 const withPlugins = require("next-compose-plugins");
 const withBundleAnalyzer = require("@next/bundle-analyzer");
 const { isProdEnv, isBundleAnalyzerEnabled } = require("./src/utils/env");
-const { nextI18NextRewrites } = require('next-i18next/rewrites')
-
-const localeSubpaths = {
-    de: "de",
-};
+const { nextI18NextRewrites } = require('next-i18next/rewrites');
+const localeSubpaths = require("./config/localeSubPaths");
 
 const nextConfig = {
     assetPrefix: isProdEnv() ? process.env.CDN_PATH : "",

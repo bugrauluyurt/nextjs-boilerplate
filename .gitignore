@@ -50,3 +50,6 @@ dist
 
 # vercel
 .vercel
+
+# i18n
+.locize
