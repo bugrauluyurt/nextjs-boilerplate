@@ -10,7 +10,7 @@
       "@actions/*": ["./src/actions/*"],
       "@services/*": ["./src/services/*"],
       "@declarations/*": ["./src/declarations/*"],
-      "@interfaces/*": ["./src/declarations/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
       "@types/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
       "@static/*": ["./public/static/*"]
