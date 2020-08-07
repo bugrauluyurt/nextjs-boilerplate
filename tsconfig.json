@@ -12,6 +12,7 @@
       "@declarations/*": ["./src/declarations/*"],
       "@interfaces/*": ["./src/interfaces/*"],
       "@types/*": ["./src/types/*"],
+      "@enums/*": ["./src/enums/*"],
       "@utils/*": ["./src/utils/*"],
       "@static/*": ["./public/static/*"]
     },

@@ -1,85 +1,32 @@
 import Head from "next/head";
 import React from "react";
-import { withTranslation } from "../i18n";
-import styles from "../styles/Home.module.css";
+import { withTranslation, i18n, Router } from "../i18n";
 
-const Home = ({ t }) => {
+const Home = ({ t }): JSX.Element => {
     return (
-        <div className={styles.container}>
+        <div>
             <Head>
-                <title>Create a nextjs app</title>
+                <title>papersmart</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={styles.main}>
-                <h1 className={styles.title}>{t("welcome")}</h1>
-
-                <p className={styles.description}>
-                    Get started by editing{" "}
-                    <code className={styles.code}>pages/index.js</code>
-                </p>
-
-                <div className={styles.grid}>
-                    <a href="https://nextjs.org/docs" className={styles.card}>
-                        <h3>Documentation &rarr;</h3>
-                        <p>
-                            Find in-depth information about Next.js features and
-                            API.
-                        </p>
-                    </a>
-
-                    <a href="https://nextjs.org/learn" className={styles.card}>
-                        <h3>Learn &rarr;</h3>
-                        <p>
-                            Learn about Next.js in an interactive course with
-                            quizzes!
-                        </p>
-                    </a>
-
-                    <a
-                        href="https://github.com/vercel/next.js/tree/master/examples"
-                        className={styles.card}
+            <main>
+                <div>{t("welcome")}</div>
+                <div className="language-switcher">
+                    <button
+                        type="button"
+                        onClick={() => Router.push("/products")}
                     >
-                        <h3>Examples &rarr;</h3>
-                        <p>
-                            Discover and deploy boilerplate example Next.js
-                            projects.
-                        </p>
-                    </a>
-
-                    <a
-                        href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                        className={styles.card}
-                    >
-                        <h3>Deploy &rarr;</h3>
-                        <p>
-                            Instantly deploy your Next.js site to a public URL
-                            with Vercel.
-                        </p>
-                    </a>
+                        {t("to-products")}
+                    </button>
                 </div>
             </main>
-
-            <footer className={styles.footer}>
-                <a
-                    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Powered by{" "}
-                    <img
-                        src="/vercel.svg"
-                        alt="Vercel Logo"
-                        className={styles.logo}
-                    />
-                </a>
-            </footer>
         </div>
     );
 };
 
 Home.getInitialProps = async () => ({
-    namespacesRequired: ["common", "footer"],
+    namespacesRequired: ["common"],
 });
 
 export default withTranslation("common")(Home);
