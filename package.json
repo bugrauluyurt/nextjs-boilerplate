@@ -27,11 +27,17 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-redux": "^7.2.1",
+    "redux-promise-middleware": "^6.1.2",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "sass": "^1.26.10"
   },
   "devDependencies": {
     "@types/node": "^14.0.27",
     "@types/react": "^16.9.44",
+    "@types/react-redux": "^7.1.9",
+    "@types/redux-thunk": "^2.1.0",
+    "@types/reselect": "^2.2.0",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
     "chalk": "^4.1.0",
