@@ -12,7 +12,7 @@ const Home = ({ t }): JSX.Element => {
 
             <main>
                 <div>{t("welcome")}</div>
-                <div className="language-switcher">
+                <div className="navigation-btn">
                     <button
                         type="button"
                         onClick={() => Router.push("/products")}
