@@ -9,7 +9,7 @@
       "@context/*": ["./src/context/*"],
       "@actions/*": ["./src/actions/*"],
       "@services/*": ["./src/services/*"],
-      "@declarations/*": ["./src/declarations/*"],
+      "@constants/*": ["./src/constants/*"],
       "@interfaces/*": ["./src/interfaces/*"],
       "@enums/*": ["./src/enums/*"],
       "@utils/*": ["./src/utils/*"],

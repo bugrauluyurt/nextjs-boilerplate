@@ -2,5 +2,17 @@
   "description-text": "This is a description text",
   "welcome": "Welcome to nextjs-boilerplate",
   "change-locale": "Change Locale",
-  "to-products": "Go to products"
+  "to-products": "Go to products",
+  "login": "Login",
+  "register": "Register",
+  "password": "Password",
+  "email": "Email",
+  "invalid_email": "Email is invalid.",
+  "invalid_password": "Password is invalid",
+  "required": "Required",
+  "min_password": "Min password length should be 5 characters",
+  "max_password": "Max password length should be 30 characters",
+  "min_username": "Min username length should be 3 characters",
+  "max_username": "Max username length should be 100 characters",
+  "username": "Username"
 }

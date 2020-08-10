@@ -30,6 +30,6 @@ const initStore = () => {
     return createStore(reducer, bindMiddleware([thunkMiddleware, promise]));
 };
 const wrapper = createWrapper(initStore, {
-    debug: process.env.NODE_ENV !== "production",
+    debug: false,
 });
 export default wrapper;

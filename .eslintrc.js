@@ -37,6 +37,9 @@ module.exports = {
         "jsx-a11y/label-has-associated-control": "off",
         "react/no-unescaped-entities": "off",
         "jsx-a11y/accessible-emoji": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "consistent-return": "off",
     },
     settings: {
         "import/resolver": {
