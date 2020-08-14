@@ -1,15 +1,18 @@
 import * as React from "react";
-import { withTranslation } from "../../../i18n";
-import { ILoginComponent } from "./login.interface";
-import { InputStyle } from "../../../styles/components/input";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { PageAuthenticationConstant } from "@constants/page-authentication.constant";
+import { InputStyle } from "../../../styles/components/input";
+import { ILoginComponent } from "./login.interface";
+import { withTranslation } from "../../../i18n";
 
-const Login: React.FC<ILoginComponent.IProps> = ({ t, onEmitClickRegister }): JSX.Element => {
+const Login: React.FC<ILoginComponent.IProps> = ({
+    t,
+    onEmitClickRegister,
+}): JSX.Element => {
     const dispatch = useDispatch();
-    const onClickRegister = (e) => {
+    const onClickRegister = e => {
         e.preventDefault();
         onEmitClickRegister(PageAuthenticationConstant.AUTH_TYPE.REGISTER);
     };
@@ -29,8 +32,8 @@ const Login: React.FC<ILoginComponent.IProps> = ({ t, onEmitClickRegister }): JS
                 .max(30, t("max_password"))
                 .required(t("required")),
         }),
-        onSubmit: (values) => {
-            //dispatch(userLogin(values));
+        onSubmit: values => {
+            // dispatch(userLogin(values));
         },
     });
 
@@ -94,12 +97,13 @@ const Login: React.FC<ILoginComponent.IProps> = ({ t, onEmitClickRegister }): JS
                     >
                         {loading ? `${t("loading")}...` : t("login")}
                     </button>
-                    <a
+                    <button
+                        type="button"
                         className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 cursor-pointer underline"
                         onClick={onClickRegister}
                     >
                         <span className="pr-1">{t("register")}</span>
-                    </a>
+                    </button>
                 </div>
             </form>
         </>

@@ -1,5 +1,5 @@
-import { AxiosRequestConfig } from 'axios';
-import { RequestMethod } from 'services/connections/ConnectionBase';
+import { AxiosRequestConfig } from "axios";
+import { RequestMethod } from "@services/connections/ConnectionBase";
 
 export declare interface IConnection {
     request(
