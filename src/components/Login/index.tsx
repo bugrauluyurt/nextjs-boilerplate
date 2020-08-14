@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { PageAuthenticationConstant } from "@constants/page-authentication.constant";
 import { useState } from "react";
 import UserService from "@services/user.service";
+import LoginError from "@components/LoginError";
 import { InputStyle } from "../../../styles/components/input";
 import { ILoginComponent } from "./login.interface";
 import { withTranslation } from "../../../i18n";
@@ -19,7 +20,7 @@ const Login: React.FC<ILoginComponent.IProps> = ({
     };
     const [state, setState] = useState({
         loading: false,
-        error: false,
+        error: null,
     });
 
     const formik = useFormik({
@@ -37,25 +38,29 @@ const Login: React.FC<ILoginComponent.IProps> = ({
                 .required(t("required")),
         }),
         onSubmit: values => {
-            setState({ ...state, loading: true });
+            setState({ ...state, loading: true, error: null });
             UserService.loginUser(values)
                 .then(() => setState({ ...state, loading: false }))
                 .catch(error => {
                     setState({ ...state, error });
-                    LoggerService.log(error);
+                    LoggerService.log(error, "error");
                 });
         },
     });
 
     return (
         <>
-            <h1 className="text-gray-700 text-base font-bold text-center mb-4">
+            <h1 className="text-lg text-gray-700 font-bold text-center mb-6">
                 {t("login")}
             </h1>
             <form
                 className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
                 onSubmit={formik.handleSubmit}
             >
+                {/* Error */}
+                {state?.error?.key && (
+                    <LoginError errorKey={state?.error?.key} />
+                )}
                 {/* Email Field */}
                 <div className="mb-4">
                     <label

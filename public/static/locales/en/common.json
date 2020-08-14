@@ -14,5 +14,6 @@
   "max_password": "Max password length should be 30 characters",
   "min_username": "Min username length should be 3 characters",
   "max_username": "Max username length should be 100 characters",
-  "username": "Username"
+  "username": "Username",
+  "login_error_NOT_FOUND": "User not found"
 }

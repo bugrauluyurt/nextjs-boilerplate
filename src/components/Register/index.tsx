@@ -41,7 +41,7 @@ const Register: React.FC<IRegisterComponent.IProps> = ({
 
     return (
         <>
-            <h1 className="text-gray-700 text-base font-bold text-center mb-4">
+            <h1 className="text-gray-700 text-lg font-bold text-center mb-6">
                 {t("register")}
             </h1>
             <form

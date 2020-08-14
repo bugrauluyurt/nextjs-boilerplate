@@ -8,7 +8,7 @@ export class LoggerService {
             case "error":
                 return console.error(LoggerService.ERROR_PREFIX, log);
             default:
-                return console.log(`[LOGGER] ${log}`);
+                return console.log("[LOGGER]", log);
         }
     }
 
