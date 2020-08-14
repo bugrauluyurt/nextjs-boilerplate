@@ -1,22 +1,26 @@
 import * as React from "react";
-import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { PageAuthenticationConstant } from "@constants/page-authentication.constant";
+import { useState } from "react";
+import UserService from "@services/user.service";
 import { InputStyle } from "../../../styles/components/input";
 import { ILoginComponent } from "./login.interface";
 import { withTranslation } from "../../../i18n";
+import { LoggerService } from "../../services/logger.service";
 
 const Login: React.FC<ILoginComponent.IProps> = ({
     t,
     onEmitClickRegister,
 }): JSX.Element => {
-    const dispatch = useDispatch();
     const onClickRegister = e => {
         e.preventDefault();
         onEmitClickRegister(PageAuthenticationConstant.AUTH_TYPE.REGISTER);
     };
-    const loading = false;
+    const [state, setState] = useState({
+        loading: false,
+        error: false,
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -33,7 +37,13 @@ const Login: React.FC<ILoginComponent.IProps> = ({
                 .required(t("required")),
         }),
         onSubmit: values => {
-            // dispatch(userLogin(values));
+            setState({ ...state, loading: true });
+            UserService.loginUser(values)
+                .then(() => setState({ ...state, loading: false }))
+                .catch(error => {
+                    setState({ ...state, error });
+                    LoggerService.log(error);
+                });
         },
     });
 
@@ -93,9 +103,9 @@ const Login: React.FC<ILoginComponent.IProps> = ({
                     <button
                         className="btn btn-primary-4 ripple"
                         type="submit"
-                        disabled={loading}
+                        disabled={state?.loading}
                     >
-                        {loading ? `${t("loading")}...` : t("login")}
+                        {state?.loading ? `${t("loading")}...` : t("login")}
                     </button>
                     <button
                         type="button"

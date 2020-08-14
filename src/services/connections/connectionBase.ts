@@ -114,12 +114,14 @@ export class BaseConnection implements IConnection {
                 .then(response => resolve(response))
                 .catch(error => {
                     // @TODO Sentry.io integration should come here
-                    const errorObj =
-                        error instanceof Error ? error : new Error(error);
                     if (rejectionDisabled) {
-                        return resolve(errorObj);
+                        return resolve(error?.response?.data);
                     }
-                    return reject(errorObj);
+                    const e = {
+                        ...new Error(),
+                        ...(error?.response?.data || {}),
+                    };
+                    return reject(e);
                 });
         });
     }

@@ -41,9 +41,7 @@ class UserService {
             "auth/local/login",
             RequestMethod.POST,
             undefined,
-            body,
-            undefined,
-            true
+            body
         );
     }
 

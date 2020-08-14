@@ -1,5 +1,6 @@
 import React from "react";
 import App from "next/app";
+import { ReactQueryDevtools } from "react-query-devtools";
 import { appWithTranslation } from "../i18n";
 import wrapper from "../src/store/store";
 import "../styles/globals.css";
@@ -10,6 +11,7 @@ const MyApp = ({ Component, pageProps }) => {
     return (
         <div className="app-root light-theme">
             <Component {...pageProps} />
+            <ReactQueryDevtools initialIsOpen={false} />
         </div>
     );
 };
