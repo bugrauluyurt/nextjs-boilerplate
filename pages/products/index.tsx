@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { compose } from "redux";
 import styles from "./products.module.scss";
 import { withTranslation } from "../../i18n";
+import withRouteProtection from "../../src/components/HOCs/withRouteProtection";
 
 const Products = ({ t }): JSX.Element => {
     return (
@@ -10,8 +12,14 @@ const Products = ({ t }): JSX.Element => {
     );
 };
 
-Products.getInitialProps = async () => ({
-    namespacesRequired: ["common"],
-});
+Products.getInitialProps = async () => {
+    console.log("******* [getInitialProps][Products] *********");
+    return {
+        namespacesRequired: ["common"],
+    };
+};
 
-export default withTranslation("common")(Products);
+export default compose(
+    withRouteProtection,
+    withTranslation("common")
+)(Products);

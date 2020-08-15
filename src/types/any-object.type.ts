@@ -1,1 +1,1 @@
-export type AnyObject = { [key: string]: any };
+export type IAnyObject = { [key: string]: any };

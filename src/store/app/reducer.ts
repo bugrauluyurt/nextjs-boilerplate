@@ -1,17 +1,17 @@
 import { Action } from "../../types/action.interface";
-import { AppActions } from "./actions";
-import { AppState } from "./types";
+import { AppAction } from "./actions";
+import { IAppState } from "./types";
 
-const INITIAL_STATE: AppState = {
+const INITIAL_STATE: IAppState = {
     version: 1,
 };
 
 export const appReducer = (
     state = INITIAL_STATE,
     action: Action<any>
-): AppState => {
+): IAppState => {
     switch (action.type) {
-        case AppActions.SET_VERSION:
+        case AppAction.SET_VERSION:
             return {
                 ...state,
                 version: action.payload,

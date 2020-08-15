@@ -2,9 +2,8 @@ import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import promise from "redux-promise-middleware";
-import { createWrapper } from "next-redux-wrapper";
+import { createWrapper, HYDRATE } from "next-redux-wrapper";
 import combineReducers from "./rootReducer";
-import RootActions from "./rootActions";
 
 const bindMiddleware = middleware => {
     if (process.env.NODE_ENV !== "production") {
@@ -14,7 +13,7 @@ const bindMiddleware = middleware => {
 };
 
 const reducer = (state, action) => {
-    if (action.type === RootActions.HYDRATE) {
+    if (action.type === HYDRATE) {
         const nextState = {
             ...state, // use previous state
             ...action.payload, // apply delta from hydration

@@ -1,6 +1,6 @@
 import { WithTranslation } from "next-i18next";
 
-declare namespace IErrorPage {
+declare namespace IAuthenticationPage {
     export interface IProps extends WithTranslation {
         statusCode?: number;
     }
@@ -10,4 +10,4 @@ declare namespace IErrorPage {
     }
 }
 
-export type { IErrorPage };
+export type { IAuthenticationPage };

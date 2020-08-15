@@ -1,8 +1,9 @@
 import { UserRole } from "@enums/user-role.enum";
 
-export interface User {
+export interface IUser {
     _id: string;
     companies: string[];
+    companyRoles: string[];
     roles: UserRole[];
     name: string;
     email: string;

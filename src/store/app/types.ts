@@ -1,3 +1,3 @@
-export interface AppState {
+export interface IAppState {
     version: number;
 }

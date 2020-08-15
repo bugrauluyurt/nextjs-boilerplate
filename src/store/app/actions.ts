@@ -1,10 +1,12 @@
 import { Action } from "../../types/action.interface";
 
-export enum AppActions {
+export enum AppAction {
     SET_VERSION = "APP::SET_VERSION",
 }
 
-export const setVersion = (version: number): Action<number> => ({
-    type: AppActions.SET_VERSION,
-    payload: version,
-});
+export const AppActions = {
+    SetVersion: (version: number): Action<number> => ({
+        type: AppAction.SET_VERSION,
+        payload: version,
+    }),
+};
