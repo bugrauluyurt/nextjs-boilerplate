@@ -15,20 +15,16 @@ const withRouteProtection = Page => {
         if (_isEmpty(user)) {
             if (isClient()) {
                 LoggerService.log(
-                    "[Client][withRouteProtection] User does not exist. Redirecting to /authentication..."
+                    "[Client] [withRouteProtection] User does not exist. Redirecting to /authentication..."
                 );
-                Router.push(
-                    `/${ROUTE_AUTHENTICATION}?authType=${PageAuthenticationConstant.AUTH_TYPE.LOGIN}`
-                );
+                Router.push(`/${ROUTE_AUTHENTICATION}?authType=${PageAuthenticationConstant.AUTH_TYPE.LOGIN}`);
             }
             return <div>Redirecting please wait...</div>;
         }
         return <Page {...props} />;
     };
     WrappedPage.getInitialProps = async ctx => {
-        const pageProps = Page.getInitialProps
-            ? await Page.getInitialProps(ctx)
-            : {};
+        const pageProps = Page.getInitialProps ? await Page.getInitialProps(ctx) : {};
         LoggerService.log(
             ctx.req
                 ? "[Server] [withRouteProtection] getInitialProps called..."

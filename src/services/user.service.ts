@@ -15,55 +15,23 @@ class UserService {
     }
 
     getUser(requestConfig?: AxiosRequestConfig | IAnyObject): Promise<IUser> {
-        return this.connection.request(
-            "users/currentUser",
-            RequestMethod.GET,
-            undefined,
-            undefined,
-            requestConfig
-        );
+        return this.connection.request("users/currentUser", RequestMethod.GET, undefined, undefined, requestConfig);
     }
 
     getUserById(userId: string): Promise<IUser> {
-        return this.connection.request(
-            `users/${userId}`,
-            RequestMethod.GET,
-            undefined,
-            undefined,
-            undefined,
-            true
-        );
+        return this.connection.request(`users/${userId}`, RequestMethod.GET, undefined, undefined, undefined, true);
     }
 
     loginUser(body: ILoginParams): Promise<IUser> {
-        return this.connection.request(
-            "auth/local/login",
-            RequestMethod.POST,
-            undefined,
-            body
-        );
+        return this.connection.request("auth/local/login", RequestMethod.POST, undefined, body);
     }
 
     logoutUser(): Promise<void> {
-        return this.connection.request(
-            "auth/local/logout",
-            RequestMethod.POST,
-            undefined,
-            undefined,
-            undefined,
-            true
-        );
+        return this.connection.request("auth/local/logout", RequestMethod.POST, undefined, undefined, undefined, true);
     }
 
     registerUser(body: IRegisterParams): Promise<IUser> {
-        return this.connection.request(
-            "auth/local/register",
-            RequestMethod.POST,
-            undefined,
-            body,
-            undefined,
-            true
-        );
+        return this.connection.request("auth/local/register", RequestMethod.POST, undefined, body, undefined, true);
     }
 }
 
