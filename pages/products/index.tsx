@@ -9,7 +9,7 @@ import { LoggerService } from "../../src/services/logger.service";
 const Products = ({ t }): JSX.Element => {
     return (
         <>
-            <div className={styles["text-red"]}>This is the products page.</div>
+            <div>[Products-Page]</div>
         </>
     );
 };
@@ -22,7 +22,4 @@ Products.getInitialProps = async () => {
     };
 };
 
-export default compose(
-    withRouteProtection,
-    withTranslation("common")
-)(Products);
+export default compose(withRouteProtection, withTranslation("common"))(Products);
