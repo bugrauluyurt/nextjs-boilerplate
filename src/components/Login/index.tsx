@@ -5,15 +5,20 @@ import { PageAuthenticationConstant } from "@constants/page-authentication.const
 import { useState } from "react";
 import UserService from "@services/user.service";
 import LoginError from "@components/LoginError";
+import { Router } from "i18n";
+import { useDispatch } from "react-redux";
 import { InputStyle } from "../../../styles/components/input";
 import { ILoginComponent } from "./login.interface";
 import { withTranslation } from "../../../i18n";
 import { LoggerService } from "../../services/logger.service";
+import { UserAction, UserActions } from "../../store/user/actions";
+import { IUser } from "../../types/user.interface";
 
 const Login: React.FC<ILoginComponent.IProps> = ({
     t,
     onEmitClickRegister,
 }): JSX.Element => {
+    const dispatch = useDispatch();
     const onClickRegister = e => {
         e.preventDefault();
         onEmitClickRegister(PageAuthenticationConstant.AUTH_TYPE.REGISTER);
@@ -40,7 +45,11 @@ const Login: React.FC<ILoginComponent.IProps> = ({
         onSubmit: values => {
             setState({ ...state, loading: true, error: null });
             UserService.loginUser(values)
-                .then(() => setState({ ...state, loading: false }))
+                .then((user: IUser) => {
+                    setState({ ...state, loading: false });
+                    dispatch(UserActions.SetUser(user));
+                    Router.push("/");
+                })
                 .catch(error => {
                     setState({ ...state, error });
                     LoggerService.log(error, "error");

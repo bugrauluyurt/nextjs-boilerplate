@@ -3,7 +3,7 @@ import { IConnection } from "@services/connections/connection";
 import ConnectionFactory from "@services/connections/connectionFactory";
 import { RequestMethod } from "@services/connections/connectionBase";
 import { IAnyObject } from "../types/any-object.type";
-import { User } from "../types/user.interface";
+import { IUser } from "../types/user.interface";
 import { ILoginParams } from "../types/login-params.interface";
 import { IRegisterParams } from "../types/register-params.interface";
 
@@ -14,7 +14,7 @@ class UserService {
         return this.connection.getRequestConfig();
     }
 
-    getUser(requestConfig?: AxiosRequestConfig | IAnyObject): Promise<User> {
+    getUser(requestConfig?: AxiosRequestConfig | IAnyObject): Promise<IUser> {
         return this.connection.request(
             "users/currentUser",
             RequestMethod.GET,
@@ -24,7 +24,7 @@ class UserService {
         );
     }
 
-    getUserById(userId: string): Promise<User> {
+    getUserById(userId: string): Promise<IUser> {
         return this.connection.request(
             `users/${userId}`,
             RequestMethod.GET,
@@ -35,7 +35,7 @@ class UserService {
         );
     }
 
-    loginUser(body: ILoginParams): Promise<User> {
+    loginUser(body: ILoginParams): Promise<IUser> {
         return this.connection.request(
             "auth/local/login",
             RequestMethod.POST,
@@ -55,7 +55,7 @@ class UserService {
         );
     }
 
-    registerUser(body: IRegisterParams): Promise<User> {
+    registerUser(body: IRegisterParams): Promise<IUser> {
         return this.connection.request(
             "auth/local/register",
             RequestMethod.POST,
