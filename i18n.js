@@ -6,6 +6,7 @@ const path = require("path");
 module.exports = new NextI18Next({
     otherLanguages: ["de"],
     localeSubpaths,
+    shallowRender: true,
     localePath: path.resolve("./public/static/locales"),
 });
 /* eslint-enable */

@@ -15,6 +15,7 @@ import "../../styles/main.scss";
 import { UserActions } from "../../src/store/user/actions";
 import { IUser } from "../../src/types/user.interface";
 import { LoggerService } from "../../src/services/logger.service";
+import { isClient } from "@utils/isClient";
 
 const MyApp = ({ Component, pageProps }) => {
     return (
@@ -48,16 +49,19 @@ const setUserToStore = async (
 MyApp.getInitialProps = async (appContext: AppContext) => {
     const appProps = await App.getInitialProps(appContext);
     const user = await setUserToStore(appContext);
+    const logPrefix = isClient() ? "[Client]" : "[Server]";
     LoggerService.log(
         // eslint-disable-next-line prettier/prettier
-        `${appContext.ctx?.res ? "[Server]" : "[Client]"}[App] getInitialProps called...`
+        `${logPrefix} [App] getInitialProps called...`
     );
     const protectedRoute = isProtectedRoute(appContext?.ctx.pathname);
+    // eslint-disable-next-line prettier/prettier
+    LoggerService.log(`${logPrefix} Router ${appContext?.ctx.asPath} is ${protectedRoute ? "" : "NOT "}a protected route.`);
     if (appContext.ctx?.res && _isEmpty(user) && protectedRoute) {
-        LoggerService.log(
-            "[Server] User does not exist. Redirecting to [lang]/authentication..."
-        );
         const lang = `${appContext?.ctx?.req["language"]}`;
+        LoggerService.log(
+            `[Server] User does not exist. Redirecting to ${lang}/authentication...`
+        );
         // @TODO: Fix pathname error. Translated redirections does not work.
         // @TODO: You can get the language directly from ctx.req.lng.
         appContext?.ctx?.res.writeHead(301, {

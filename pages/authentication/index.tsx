@@ -7,17 +7,19 @@ import Register from "@components/Register";
 import { includes } from "lodash-es";
 import { ROUTE_AUTHENTICATION } from "@constants/routes.constant";
 import { IAuthenticationPage } from "src/types/authentication-page.interface";
+import { isClient } from "@utils/isClient";
 import styles from "./authentication.module.scss";
-import { withTranslation } from "../../i18n";
+import { withTranslation, Router } from "../../i18n";
+import { LoggerService } from "../../src/services/logger.service";
 
 const Auth: NextPage<
     IAuthenticationPage.IProps,
     IAuthenticationPage.InitialProps
-> = ({ t }): JSX.Element => {
+> = ({ t, i18n }): JSX.Element => {
+    const nextRouter = useRouter();
     // Hooks
-    const router = useRouter();
     const initialState = includes(
-        router.pathname,
+        nextRouter.pathname,
         PageAuthenticationConstant.AUTH_TYPE.REGISTER
     )
         ? PageAuthenticationConstant.AUTH_TYPE.REGISTER
@@ -26,12 +28,10 @@ const Auth: NextPage<
         initialState
     );
     const pushQueryState = async authType => {
-        // @TODO: Fix pathname error. Translated redirections does not work.
-        await router.push(
-            `${router.pathname}?authType=${authType}`,
-            undefined,
-            { shallow: true }
-        );
+        const lang = `${i18n.language === "en" ? "" : i18n.language}`;
+        const redirectPath = `/${ROUTE_AUTHENTICATION}?authType=${authType}`;
+        LoggerService.log(`[Client] Redirecting to ${lang}${redirectPath}`);
+        await Router.push(redirectPath, undefined, { shallow: true });
     };
     // Handles
     const handleOnEmitState = (authType: string) => {
@@ -76,12 +76,7 @@ const Auth: NextPage<
     );
 };
 
-Auth.getInitialProps = async ({
-    pathname,
-    asPath,
-    res,
-    query,
-}: NextPageContext) => {
+Auth.getInitialProps = async (ctx: NextPageContext) => {
     return {
         namespacesRequired: ["common"],
     };

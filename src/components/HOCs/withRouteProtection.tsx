@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NextPage } from "next";
 import { useSelector, shallowEqual } from "react-redux";
-import I18nContext from "next-i18next";
 import { isEmpty as _isEmpty } from "lodash-es";
-import { useRouter } from "next/router";
 import { LoggerService } from "@services/logger.service";
+import { isClient } from "@utils/isClient";
+import { Router } from "i18n";
+import { PageAuthenticationConstant } from "@constants/page-authentication.constant";
 import { selectUser } from "../../store/user/selectors";
 import { ROUTE_AUTHENTICATION } from "../../constants/routes.constant";
 
@@ -12,14 +13,13 @@ const withRouteProtection = Page => {
     const WrappedPage: NextPage = props => {
         const user = useSelector(selectUser, shallowEqual);
         if (_isEmpty(user)) {
-            if (typeof window !== "undefined") {
+            if (isClient()) {
                 LoggerService.log(
                     "[Client][withRouteProtection] User does not exist. Redirecting to /authentication..."
                 );
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const router = useRouter();
-                // @TODO: Fix pathname error. Translated redirections does not work.
-                router.push(`/${ROUTE_AUTHENTICATION}`);
+                Router.push(
+                    `/${ROUTE_AUTHENTICATION}?authType=${PageAuthenticationConstant.AUTH_TYPE.LOGIN}`
+                );
             }
             return <div>Redirecting please wait...</div>;
         }
@@ -31,8 +31,8 @@ const withRouteProtection = Page => {
             : {};
         LoggerService.log(
             ctx.req
-                ? "[Server][withRouteProtection] getInitialProps called..."
-                : "[Client][withRouteProtection] getInitialProps called..."
+                ? "[Server] [withRouteProtection] getInitialProps called..."
+                : "[Client] [withRouteProtection] getInitialProps called..."
         );
         return { ...pageProps };
     };

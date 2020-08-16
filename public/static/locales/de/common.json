@@ -1,3 +1,19 @@
 {
-  "welcome": "Willkommen zu nextjs-boilerplate"
+  "change-locale": "Gebietsschema ändern",
+  "description-text": "Dies ist ein Beschreibungstext",
+  "email": "Email",
+  "invalid_email": "E-Mail ist ungültig.",
+  "invalid_password": "Passwort ist ungültig",
+  "login": "Anmeldung",
+  "login_error_NOT_FOUND": "Benutzer wurde nicht gefunden",
+  "max_password": "Die maximale Passwortlänge sollte 30 Zeichen betragen",
+  "max_username": "Die maximale Länge des Benutzernamens sollte 100 Zeichen betragen",
+  "min_password": "Die minimale Passwortlänge sollte 5 Zeichen betragen",
+  "min_username": "Die minimale Länge des Benutzernamens sollte 3 Zeichen betragen",
+  "password": "Passwort",
+  "register": "Registrieren",
+  "required": "Erforderlich",
+  "to-products": "Gehen Sie zu Produkten",
+  "username": "Nutzername",
+  "welcome": "Willkommen bei nextjs-boilerplate"
 }
