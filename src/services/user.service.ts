@@ -31,7 +31,7 @@ class UserService {
     }
 
     registerUser(body: IRegisterParams): Promise<IUser> {
-        return this.connection.request("auth/local/register", RequestMethod.POST, undefined, body, undefined);
+        return this.connection.request("auth/local/signup", RequestMethod.POST, undefined, body, undefined);
     }
 }
 

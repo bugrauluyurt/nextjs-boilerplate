@@ -31,11 +31,7 @@ export class BaseConnection implements IConnection {
 
     private defaultRequestConfig: AxiosRequestConfig = {};
 
-    constructor(
-        baseUrl?: string,
-        authorization?: string,
-        requestConfig?: AxiosRequestConfig
-    ) {
+    constructor(baseUrl?: string, authorization?: string, requestConfig?: AxiosRequestConfig) {
         const config = {
             ...AXIOS_BASE_CONFIG,
             ...requestConfig,
@@ -96,24 +92,21 @@ export class BaseConnection implements IConnection {
             method,
             params: BaseConnection.sanitizeParams(params),
             ...this.defaultRequestConfig,
-            ...requestConfig,
+            ...(requestConfig || {}),
         } as AxiosRequestConfig;
         if (body) {
             const isFormData = body instanceof FormData;
             if (isFormData) {
                 config.headers["Content-Type"] = "multipart/form-data";
             }
-            config.data =
-                !isFormData && isObject(body)
-                    ? JSON.stringify(body)
-                    : body || "";
+            config.data = !isFormData && isObject(body) ? JSON.stringify(body) : body || "";
         }
         return new Promise<any>((resolve, reject) => {
             this.connectionInstance
                 .request(config)
                 .then(response => resolve(response))
                 .catch(error => {
-                    // @TODO Sentry.io integration should come here
+                    // @TODO: Sentry.io integration should come here
                     if (rejectionDisabled) {
                         return resolve(error?.response?.data);
                     }

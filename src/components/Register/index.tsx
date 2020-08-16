@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PageAuthenticationConstant } from "@constants/page-authentication.constant";
 import { useFormik } from "formik";
+import { get } from "lodash-es";
 import * as Yup from "yup";
 import { useState } from "react";
 import UserService from "@services/user.service";
@@ -22,19 +23,23 @@ const Register: React.FC<IRegisterComponent.IProps> = ({ t, onEmitClickLogin }):
 
     const formik = useFormik({
         initialValues: {
-            username: "",
+            name: "",
             email: "",
             password: "",
         },
         validationSchema: Yup.object({
-            username: Yup.string().min(3, t("min_username")).max(100, t("max_username")).required(t("required")),
+            name: Yup.string().min(3, t("min_username")).max(100, t("max_username")).required(t("required")),
             email: Yup.string().email(t("invalid_email")).required(t("required")),
             password: Yup.string().min(5, t("min_password")).max(30, t("max_password")).required(t("required")),
         }),
         onSubmit: values => {
             setState({ ...state, loading: true, error: null });
             UserService.registerUser(values)
-                .then((user: IUser) => {
+                .then(response => {
+                    const user: IUser = response?._id ? response : get(response, "data");
+                    if (!user) {
+                        throw new Error("User does not exist on response");
+                    }
                     setState({ ...state, loading: false });
                     dispatch(UserActions.SetUser(user));
                     Router.push("/");
@@ -46,7 +51,7 @@ const Register: React.FC<IRegisterComponent.IProps> = ({ t, onEmitClickLogin }):
         },
     });
 
-    const onClickLogin = (e: Event): void => {
+    const onClickLogin = e => {
         e.preventDefault();
         onEmitClickLogin(PageAuthenticationConstant.AUTH_TYPE.LOGIN);
     };
@@ -59,18 +64,19 @@ const Register: React.FC<IRegisterComponent.IProps> = ({ t, onEmitClickLogin }):
                 {state?.error && <AuthenticationError errorKey={state?.error?.key} />}
                 {/* Name Field */}
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                         {t("username")}
                     </label>
                     <input
                         className={InputStyle(formik)}
-                        id="username"
+                        id="name"
                         type="text"
                         placeholder={t("username")}
-                        {...formik.getFieldProps("username")}
+                        autoComplete="off"
+                        {...formik.getFieldProps("name")}
                     />
-                    {formik.touched.username && formik.errors.username ? (
-                        <p className="text-red-500 text-sm pt-1">{formik.errors.username}</p>
+                    {formik.touched.name && formik.errors.name ? (
+                        <p className="text-red-500 text-sm pt-1 font-bold">{formik.errors.name}</p>
                     ) : null}
                 </div>
                 {/* Email Field */}
@@ -86,7 +92,7 @@ const Register: React.FC<IRegisterComponent.IProps> = ({ t, onEmitClickLogin }):
                         {...formik.getFieldProps("email")}
                     />
                     {formik.touched.email && formik.errors.email ? (
-                        <p className="text-red-500 text-sm pt-1">{formik.errors.email}</p>
+                        <p className="text-red-500 text-sm pt-1 font-bold">{formik.errors.email}</p>
                     ) : null}
                 </div>
                 {/* Password Field */}
@@ -102,7 +108,7 @@ const Register: React.FC<IRegisterComponent.IProps> = ({ t, onEmitClickLogin }):
                         {...formik.getFieldProps("password")}
                     />
                     {formik.touched.password && formik.errors.password ? (
-                        <p className="text-red-500 text-sm pt-1">{formik.errors.password}</p>
+                        <p className="text-red-500 text-sm pt-1 font-bold">{formik.errors.password}</p>
                     ) : null}
                 </div>
                 {/* Footer */}
