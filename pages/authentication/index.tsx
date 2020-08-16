@@ -8,41 +8,41 @@ import { includes, isEmpty } from "lodash-es";
 import { ROUTE_AUTHENTICATION } from "@constants/routes.constant";
 import { IAuthenticationPage } from "src/types/authentication-page.interface";
 import { isClient } from "@utils/isClient";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector } from "react-redux";
+import Locale from "@enums/locale.enum";
 import styles from "./authentication.module.scss";
 import { withTranslation, Router } from "../../i18n";
 import { LoggerService } from "../../src/services/logger.service";
-import { selectUser } from "../../src/store/user/selectors";
+import { selectIsAnonymous } from "../../src/store/user/selectors";
 
 const Auth: NextPage<IAuthenticationPage.IProps, IAuthenticationPage.InitialProps> = ({ t, i18n }): JSX.Element => {
     const nextRouter = useRouter();
-    const user = useSelector(selectUser, shallowEqual);
+    const isAnonymous = useSelector(selectIsAnonymous);
     const initialState = includes(nextRouter.pathname, PageAuthenticationConstant.AUTH_TYPE.REGISTER)
         ? PageAuthenticationConstant.AUTH_TYPE.REGISTER
         : PageAuthenticationConstant.AUTH_TYPE.LOGIN;
     const [authenticationState, setAuthenticationState] = useState(initialState);
+    const isLogin = authenticationState === PageAuthenticationConstant.AUTH_TYPE.LOGIN;
     // Methods
     const pushQueryState = async authType => {
-        const lang = `${i18n.language === "en" ? "" : i18n.language}`;
+        const lang = `${i18n.language === Locale.EN ? "" : i18n.language}`;
         const redirectPath = `/${ROUTE_AUTHENTICATION}?authType=${authType}`;
         LoggerService.log(`[Client] Redirecting to ${lang}${redirectPath}`);
         await Router.push(redirectPath, undefined, { shallow: true });
     };
-    // Handles
     const handleOnEmitState = (authType: string) => {
         pushQueryState(authType);
         setAuthenticationState(authType);
     };
-    // Hooks
+    // Lifecycle
     useEffect(() => {
-        if (isEmpty(user)) {
+        // If anonymous, then component should set the default query param (login/register)
+        if (isAnonymous) {
             pushQueryState(initialState);
         }
     }, []);
-    // Internal states
-    // @TODO Bind these variables to actual values;
-    const isLogin = authenticationState === PageAuthenticationConstant.AUTH_TYPE.LOGIN;
-    if (!isEmpty(user)) {
+    // Render
+    if (!isAnonymous) {
         if (isClient()) {
             LoggerService.log("[Client] [Authentication] User exists. Redirecting to /...");
             Router.push("/");
@@ -61,7 +61,7 @@ const Auth: NextPage<IAuthenticationPage.IProps, IAuthenticationPage.InitialProp
                                 <Register onEmitClickLogin={handleOnEmitState} />
                             )}
                             <p className="text-center text-gray-500 text-xs">
-                                &copy;2020 CitrusNotes. All rights reserved.
+                                &copy;2020 CitrusNotes. {t("all-rights-reserved")}
                             </p>
                         </div>
                     </div>

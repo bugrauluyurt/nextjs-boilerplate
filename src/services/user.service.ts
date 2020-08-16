@@ -19,7 +19,7 @@ class UserService {
     }
 
     getUserById(userId: string): Promise<IUser> {
-        return this.connection.request(`users/${userId}`, RequestMethod.GET, undefined, undefined, undefined, true);
+        return this.connection.request(`users/${userId}`, RequestMethod.GET, undefined, undefined, undefined);
     }
 
     loginUser(body: ILoginParams): Promise<IUser> {
@@ -27,11 +27,11 @@ class UserService {
     }
 
     logoutUser(): Promise<void> {
-        return this.connection.request("auth/local/logout", RequestMethod.POST, undefined, undefined, undefined, true);
+        return this.connection.request("auth/local/logout", RequestMethod.POST, undefined, undefined, undefined);
     }
 
     registerUser(body: IRegisterParams): Promise<IUser> {
-        return this.connection.request("auth/local/register", RequestMethod.POST, undefined, body, undefined, true);
+        return this.connection.request("auth/local/register", RequestMethod.POST, undefined, body, undefined);
     }
 }
 

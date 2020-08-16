@@ -4,25 +4,18 @@ import * as Yup from "yup";
 import { PageAuthenticationConstant } from "@constants/page-authentication.constant";
 import { useState } from "react";
 import UserService from "@services/user.service";
-import LoginError from "@components/LoginError";
+import AuthenticationError from "@components/AuthenticationError";
 import { Router } from "i18n";
 import { useDispatch } from "react-redux";
 import { InputStyle } from "../../../styles/components/input";
 import { ILoginComponent } from "./login.interface";
 import { withTranslation } from "../../../i18n";
 import { LoggerService } from "../../services/logger.service";
-import { UserAction, UserActions } from "../../store/user/actions";
+import { UserActions } from "../../store/user/actions";
 import { IUser } from "../../types/user.interface";
 
-const Login: React.FC<ILoginComponent.IProps> = ({
-    t,
-    onEmitClickRegister,
-}): JSX.Element => {
+const Login: React.FC<ILoginComponent.IProps> = ({ t, onEmitClickRegister }): JSX.Element => {
     const dispatch = useDispatch();
-    const onClickRegister = e => {
-        e.preventDefault();
-        onEmitClickRegister(PageAuthenticationConstant.AUTH_TYPE.REGISTER);
-    };
     const [state, setState] = useState({
         loading: false,
         error: null,
@@ -34,13 +27,8 @@ const Login: React.FC<ILoginComponent.IProps> = ({
             password: "",
         },
         validationSchema: Yup.object({
-            email: Yup.string()
-                .email(t("invalid_email"))
-                .required(t("required")),
-            password: Yup.string()
-                .min(5, t("min_password"))
-                .max(30, t("max_password"))
-                .required(t("required")),
+            email: Yup.string().email(t("invalid_email")).required(t("required")),
+            password: Yup.string().min(5, t("min_password")).max(30, t("max_password")).required(t("required")),
         }),
         onSubmit: values => {
             setState({ ...state, loading: true, error: null });
@@ -57,25 +45,20 @@ const Login: React.FC<ILoginComponent.IProps> = ({
         },
     });
 
+    const onClickRegister = e => {
+        e.preventDefault();
+        onEmitClickRegister(PageAuthenticationConstant.AUTH_TYPE.REGISTER);
+    };
+
     return (
         <>
-            <h1 className="text-lg text-gray-700 font-bold text-center mb-6">
-                {t("login")}
-            </h1>
-            <form
-                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-                onSubmit={formik.handleSubmit}
-            >
+            <h1 className="text-lg text-gray-700 font-bold text-center mb-6">{t("login")}</h1>
+            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={formik.handleSubmit}>
                 {/* Error */}
-                {state?.error?.key && (
-                    <LoginError errorKey={state?.error?.key} />
-                )}
+                {state?.error && <AuthenticationError errorKey={state?.error?.key} />}
                 {/* Email Field */}
                 <div className="mb-4">
-                    <label
-                        className="block text-gray-700 text-sm font-bold mb-2"
-                        htmlFor="email"
-                    >
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                         {t("email")}
                     </label>
                     <input
@@ -86,17 +69,12 @@ const Login: React.FC<ILoginComponent.IProps> = ({
                         {...formik.getFieldProps("email")}
                     />
                     {formik.touched.email && formik.errors.email ? (
-                        <p className="text-red-500 text-sm pt-1 font-bold">
-                            {formik.errors.email}
-                        </p>
+                        <p className="text-red-500 text-sm pt-1 font-bold">{formik.errors.email}</p>
                     ) : null}
                 </div>
                 {/* Password Field */}
                 <div className="mb-6">
-                    <label
-                        className="block text-gray-700 text-sm font-bold mb-2"
-                        htmlFor="password"
-                    >
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                         {t("password")}
                     </label>
                     <input
@@ -107,18 +85,12 @@ const Login: React.FC<ILoginComponent.IProps> = ({
                         {...formik.getFieldProps("password")}
                     />
                     {formik.touched.password && formik.errors.password ? (
-                        <p className="text-red-500 text-sm pt-1 font-bold">
-                            {formik.errors.password}
-                        </p>
+                        <p className="text-red-500 text-sm pt-1 font-bold">{formik.errors.password}</p>
                     ) : null}
                 </div>
                 {/* Footer */}
                 <div className="flex items-center justify-between">
-                    <button
-                        className="btn btn-primary-4 ripple"
-                        type="submit"
-                        disabled={state?.loading}
-                    >
+                    <button className="btn btn-primary-4 ripple" type="submit" disabled={state?.loading}>
                         {state?.loading ? `${t("loading")}...` : t("login")}
                     </button>
                     <button

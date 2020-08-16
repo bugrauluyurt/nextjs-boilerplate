@@ -5,7 +5,8 @@
   "invalid_email": "Email is invalid.",
   "invalid_password": "Password is invalid",
   "login": "Login",
-  "login_error_NOT_FOUND": "User not found",
+  "authentication_error_DEFAULT": "An error occurred. Please try again.",
+  "authentication_error_NOT_FOUND": "User not found",
   "max_password": "Max password length should be 30 characters",
   "max_username": "Max username length should be 100 characters",
   "min_password": "Min password length should be 5 characters",
@@ -16,5 +17,6 @@
   "to-products": "Go to products",
   "username": "Username",
   "welcome": "Welcome to nextjs-boilerplate",
-  "redirecting": "Redirecting please wait..."
+  "redirecting": "Redirecting please wait...",
+  "all-rights-reserved": "All rights reserved."
 }
