@@ -12,11 +12,8 @@ export class LoggerService {
         }
     }
 
-    static log(
-        log: any,
-        type: LogTypes = "normal",
-        bypassEnvCheck = false
-    ): void {
+    static log(log: any, type: LogTypes = "normal", bypassEnvCheck = false): void {
+        // @TODO: Enable this log method on prod with query param
         if (process.env.NODE_ENV === "production" && !bypassEnvCheck) {
             return;
         }

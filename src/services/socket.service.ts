@@ -1,19 +1,21 @@
+import * as socketIo from "socket.io-client";
 import { LoggerService } from "./logger.service";
 
-interface SocketConnection {
-    connection: any;
-    timeout: () => void;
-}
+class SocketService {
+    private socketConnections: { [key: string]: SocketIOClient.Socket } = {};
 
-// @TODO: Better to create a provider for socket
-class Socket {
-    private socketConnections: { [key: string]: any } = {};
-
-    createConnection(apiUrl: string) {
-        if (this.socketConnections[apiUrl]) {
-            LoggerService.log(`[Socket] Connection from ${apiUrl} is not recreated. Timeout reset`);
+    createConnection(namespace: string, apiUrl = process.env.SOCKET_API_URL) {
+        const uniqueIdentifier = `${apiUrl}_${namespace}`;
+        if (this.socketConnections[uniqueIdentifier]) {
+            LoggerService.log(
+                `[Socket] Connection from ${apiUrl} is not recreated. It already exists. Returning existing instance...`
+            );
+            return this.socketConnections[uniqueIdentifier];
         }
+        const url = `${apiUrl}/${namespace}`;
+        this.socketConnections[uniqueIdentifier] = socketIo.connect(url);
+        return this.socketConnections[uniqueIdentifier];
     }
 }
 
-export default new Socket();
+export default new SocketService();
