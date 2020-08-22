@@ -6,4 +6,7 @@ export const SOCKET_DEFAULT_EVENTS = {
     DISCONNECT: "disconnect",
     RECONNECT: "reconnect",
     RECONNECT_ATTEMPT: "reconnect_attempt",
+    RECONNECTING: "reconnecting",
+    RECONNECT_ERROR: "reconnect_error",
+    RECONNECT_FAILED: "reconnect_failed",
 };

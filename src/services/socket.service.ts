@@ -4,7 +4,7 @@ import { LoggerService } from "./logger.service";
 class SocketService {
     private socketConnections: { [key: string]: SocketIOClient.Socket } = {};
 
-    createConnection(namespace: string, apiUrl = process.env.SOCKET_API_URL) {
+    createConnection(namespace: string, apiUrl = process.env.SOCKET_API_URL, options = {}) {
         const uniqueIdentifier = `${apiUrl}_${namespace}`;
         if (this.socketConnections[uniqueIdentifier]) {
             LoggerService.log(
@@ -13,7 +13,7 @@ class SocketService {
             return this.socketConnections[uniqueIdentifier];
         }
         const url = `${apiUrl}/${namespace}`;
-        this.socketConnections[uniqueIdentifier] = socketIo.connect(url);
+        this.socketConnections[uniqueIdentifier] = socketIo.connect({ ...options, path: url });
         return this.socketConnections[uniqueIdentifier];
     }
 }
