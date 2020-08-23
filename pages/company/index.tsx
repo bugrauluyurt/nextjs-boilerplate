@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
+import { values } from "lodash-es";
 import { withTranslation } from "../../i18n";
 import { useSocket } from "../../src/hooks/useSocket";
-import { isClient } from "../../src/utils/isClient";
+import { SOCKET_NS_DEFAULT, SOCKET_NS_DEFAULT_EVENTS } from "../../src/constants/socket/ns-default.constant";
 
 const Company = ({ t }): JSX.Element => {
-    const socket = useSocket("socket-message-ns");
-    if (isClient()) {
-        console.log("Connected", socket.connected);
-        console.log("Emitting", socket.emitting);
-        console.log("Last emitted at", socket.lastEmittedAt);
-    }
+    const eventSubscriptions = useMemo(() => {
+        return values(SOCKET_NS_DEFAULT_EVENTS.SERVER);
+    }, []);
+    const socket = useSocket(SOCKET_NS_DEFAULT, eventSubscriptions);
     const emitHandler = () => {
-        socket.emit("client.event.message", ["Hello socket.io!"]);
+        socket.emit(SOCKET_NS_DEFAULT_EVENTS.CLIENT.FIRST_MESSAGE, ["Hello socket.io!"]);
     };
     return (
         <>

@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { isArray, includes } from "lodash-es";
+import { isArray } from "lodash-es";
 import { isClient } from "@utils/isClient";
 import SocketService from "../services/socket.service";
 import { LoggerService } from "../services/logger.service";
-import { SOCKET_DEFAULT_EVENTS } from "../constants/socket.events";
+import { SOCKET_NS_GENERIC_EVENTS } from "../constants/socket/ns-generic.constant";
 
 const handleConnect = (socketInstance: SocketIOClient.Socket) => {
     if (!socketInstance.connected) {
@@ -17,28 +17,16 @@ const handleDisconnect = (socketInstance: SocketIOClient.Socket) => {
     }
 };
 
-const handleCustomEventResponse = (eventName: string, prevState: any, serverResponse: any) => {
-    const previousData = prevState.serverResponse[eventName] || [];
+const handleEventResponse = (eventName: string, prevState: any, serverResponse: any) => {
+    const previousData = prevState.server_response[eventName] || [];
     let nextData = [...previousData];
     if (isArray(serverResponse)) {
         nextData = nextData.concat(serverResponse);
     } else if (serverResponse) {
-        nextData.push(serverResponse);
+        nextData.push(serverResponse || Date.now());
     }
-    const nextResponseData = { ...prevState.serverResponse, [eventName]: nextData };
-    return { ...prevState, serverResponse: nextResponseData };
-};
-
-const handleSocketIoEventResponse = (eventName: string, prevState: any, serverResponse: any) => {
-    let nextEventResponse = serverResponse;
-    if (
-        eventName === SOCKET_DEFAULT_EVENTS.CONNECT ||
-        eventName === SOCKET_DEFAULT_EVENTS.RECONNECT_FAILED ||
-        eventName === SOCKET_DEFAULT_EVENTS.CONNECT_TIMEOUT
-    ) {
-        nextEventResponse = true;
-    }
-    return { ...prevState, [eventName]: nextEventResponse };
+    const nextResponseData = { ...prevState.server_response, [eventName]: nextData };
+    return { ...prevState, server_response: nextResponseData };
 };
 
 const defaultOptions = {
@@ -56,10 +44,7 @@ export const useSocket = (
         return { ...defaultOptions, ...customOptions };
     }, [customOptions]);
     const [data, setData] = useState({
-        serverResponse: {},
-        acknowledgementServerResponse: {},
-        emitting: false,
-        lastEmittedAt: undefined,
+        server_response: {},
         connect: false,
         connect_error: undefined,
         connect_timeout: false,
@@ -79,36 +64,19 @@ export const useSocket = (
 
     const registerListeners = useMemo(() => {
         return () => {
-            const defaultEvents = Object.values(SOCKET_DEFAULT_EVENTS);
+            const defaultEvents = Object.values(SOCKET_NS_GENERIC_EVENTS.SERVER);
             eventNames.concat(defaultEvents).forEach(eventName => {
                 socketInstance.on(eventName, (serverResponse: any) => {
                     setData(state => {
-                        // If SocketIO events
-                        if (includes(defaultEvents, eventName)) {
-                            return handleSocketIoEventResponse(eventName, state, serverResponse);
-                        }
-                        // Custom registered events
-                        return handleCustomEventResponse(eventName, state, serverResponse);
+                        return handleEventResponse(eventName, state, serverResponse);
                     });
                 });
             });
         };
     }, [eventNames]);
 
-    const handleEmit = (eventName: string, args: any[], ack?: () => any) => {
-        setData(state => ({ ...state, emitting: true }));
-        const emitArgs = [
-            ...args,
-            () => {
-                if (ack) {
-                    ack();
-                }
-                setData(state => {
-                    return { ...state, lastEmittedAt: Date.now(), emitting: false };
-                });
-            },
-        ];
-        socketInstance.emit(eventName, ...emitArgs);
+    const handleEmit = (eventName: string, args: any[]) => {
+        socketInstance.emit(eventName, ...args);
     };
 
     useEffect(() => {
