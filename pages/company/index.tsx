@@ -17,6 +17,11 @@ const Company = ({ t }): JSX.Element => {
             <button type="button" onClick={emitHandler}>
                 Emit event
             </button>
+            <div>
+                {socket.getResponse(SOCKET_NS_DEFAULT_EVENTS.SERVER.FIRST_MESSAGE_SUCCESS).map((response, i) => {
+                    return <div key={response.createdAt}>{response.message}</div>;
+                })}
+            </div>
             <div>[Company-Page]</div>
         </>
     );

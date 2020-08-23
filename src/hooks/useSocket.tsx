@@ -17,21 +17,27 @@ const handleDisconnect = (socketInstance: SocketIOClient.Socket) => {
     }
 };
 
-const handleEventResponse = (eventName: string, prevState: any, serverResponse: any) => {
-    const previousData = prevState.server_response[eventName] || [];
-    let nextData = [...previousData];
+const handleEventResponse = (eventName: string, prevState: any, serverResponse: any, options: any) => {
+    let nextData = [];
+    if (options.eventsServerHistory) {
+        nextData = prevState.events.server[eventName] || [];
+    }
     if (isArray(serverResponse)) {
         nextData = nextData.concat(serverResponse);
     } else if (serverResponse) {
         nextData.push(serverResponse || Date.now());
     }
-    const nextResponseData = { ...prevState.server_response, [eventName]: nextData };
-    return { ...prevState, server_response: nextResponseData };
+    return {
+        ...prevState,
+        events: { client: prevState.client, server: { ...prevState.server, [eventName]: nextData } },
+    };
 };
 
 const defaultOptions = {
+    // Automatically disconnects when the component is destroyed
     autoDisconnectionEnabled: true,
-    storeEmittedEvents: false,
+    // Stores received events history
+    eventsServerHistory: true,
 };
 
 export const useSocket = (
@@ -44,7 +50,7 @@ export const useSocket = (
         return { ...defaultOptions, ...customOptions };
     }, [customOptions]);
     const [data, setData] = useState({
-        server_response: {},
+        events: { client: {}, server: {} },
         connect: false,
         connect_error: undefined,
         connect_timeout: false,
@@ -68,11 +74,12 @@ export const useSocket = (
             eventNames.concat(defaultEvents).forEach(eventName => {
                 socketInstance.on(eventName, (serverResponse: any) => {
                     setData(state => {
-                        return handleEventResponse(eventName, state, serverResponse);
+                        return handleEventResponse(eventName, state, serverResponse, options);
                     });
                 });
             });
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [eventNames]);
 
     const handleEmit = (eventName: string, args: any[]) => {
@@ -96,5 +103,6 @@ export const useSocket = (
         connect: handleConnect,
         disconnect: handleDisconnect,
         emit: handleEmit,
+        getResponse: eventName => data.events.server[eventName] || [],
     };
 };
