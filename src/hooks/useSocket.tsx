@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { isArray, includes } from "lodash-es";
+import { isClient } from "@utils/isClient";
 import SocketService from "../services/socket.service";
 import { LoggerService } from "../services/logger.service";
 import { SOCKET_DEFAULT_EVENTS } from "../constants/socket.events";
@@ -42,18 +43,23 @@ const handleSocketIoEventResponse = (eventName: string, prevState: any, serverRe
 
 const defaultOptions = {
     apiUrl: process.env.SOCKET_API_URL,
-    autoConnectionEnabled: true,
     autoDisconnectionEnabled: true,
     storeEmittedEvents: false,
 };
 
-export const useSocket = (namespace: string, eventNames: string[], customOptions = defaultOptions, socketIoOptions) => {
+export const useSocket = (
+    namespace: string,
+    eventNames: string[] = [],
+    customOptions = defaultOptions,
+    socketIoOptions = {}
+) => {
     const options = useMemo(() => {
         return { ...defaultOptions, ...customOptions };
     }, [customOptions]);
     const [data, setData] = useState({
         serverResponse: {},
         acknowledgementServerResponse: {},
+        emitting: false,
         lastEmittedAt: undefined,
         connect: false,
         connect_error: undefined,
@@ -66,26 +72,12 @@ export const useSocket = (namespace: string, eventNames: string[], customOptions
     });
     // Socket instance here is not going to get created every time. It is going to point to the
     // same instance controlled inside the singleton socket service
-    const socketInstance = SocketService.createConnection(namespace, options.apiUrl, {
-        ...socketIoOptions,
-        autoConnect: options.autoConnectionEnabled,
-    });
-    const handleEmit = (eventName: string, args: any[], ack: () => any) => {
-        const emitArgs = [
-            ...args,
-            () => {
-                if (ack) {
-                    ack();
-                }
-                setData(state => {
-                    return { ...state, lastEmittedAt: Date.now() };
-                });
-            },
-        ];
-        socketInstance.emit(eventName, ...emitArgs);
-    };
-    useEffect(() => {
-        const registerListeners = () => {
+    let socketInstance: SocketIOClient.Socket;
+    if (isClient()) {
+        socketInstance = SocketService.createConnection(namespace, options.apiUrl, socketIoOptions);
+    }
+    const registerListeners = useMemo(() => {
+        return () => {
             const defaultEvents = Object.values(SOCKET_DEFAULT_EVENTS);
             eventNames.concat(defaultEvents).forEach(eventName => {
                 socketInstance.on(eventName, (serverResponse: any) => {
@@ -100,6 +92,23 @@ export const useSocket = (namespace: string, eventNames: string[], customOptions
                 });
             });
         };
+    }, [eventNames]);
+    const handleEmit = (eventName: string, args: any[], ack?: () => any) => {
+        setData(state => ({ ...state, emitting: true }));
+        const emitArgs = [
+            ...args,
+            () => {
+                if (ack) {
+                    ack();
+                }
+                setData(state => {
+                    return { ...state, lastEmittedAt: Date.now(), emitting: false };
+                });
+            },
+        ];
+        socketInstance.emit(eventName, ...emitArgs);
+    };
+    useEffect(() => {
         registerListeners();
         return () => {
             if (socketInstance && socketInstance.disconnect && options.autoDisconnectionEnabled) {
@@ -107,8 +116,7 @@ export const useSocket = (namespace: string, eventNames: string[], customOptions
                 socketInstance.disconnect();
             }
         };
-    }, [namespace, options.apiUrl, options.autoDisconnectionEnabled, eventNames, socketInstance]);
-
+    }, []);
     return {
         connected: socketInstance?.connected || false,
         disconnected: socketInstance?.disconnected || false,

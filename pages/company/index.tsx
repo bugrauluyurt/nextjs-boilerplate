@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { withTranslation } from "../../i18n";
+import { useSocket } from "../../src/hooks/useSocket";
 
 const Company = ({ t }): JSX.Element => {
+    const socket = useSocket("socket-message-ns");
+    console.log("Connected", socket.connected);
+    console.log("Emitting", socket.emitting);
+    console.log("Last emitted at", socket.lastEmittedAt);
+    const emitHandler = () => {
+        socket.emit("client.event.message", ["Hello socket.io!"]);
+    };
     return (
         <>
+            <button type="button" onClick={emitHandler}>
+                Emit event
+            </button>
             <div>[Company-Page]</div>
         </>
     );

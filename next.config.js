@@ -27,6 +27,7 @@ const nextConfig = {
     publicRuntimeConfig: {
         API_URL: process.env.API_URL,
         API_KEY: process.env.API_KEY,
+        SOCKET_API_URL: process.env.SOCKET_API_URL,
         STATIC_PATH: process.env.STATIC_PATH,
         localeSubpaths,
     },
