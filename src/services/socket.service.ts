@@ -1,5 +1,4 @@
 import * as socketIo from "socket.io-client";
-import getConfig from "next/config";
 import { LoggerService } from "./logger.service";
 
 class SocketService {
@@ -15,7 +14,7 @@ class SocketService {
         }
         const url = `/${namespace}`;
         const args: any[] = [url, { ...options }];
-        console.log("[Socket] Connecting to url =>", url);
+        LoggerService.log(`[Socket] Connecting to url ${url}`);
         this.socketConnections[uniqueIdentifier] = socketIo.connect(...args);
         return this.socketConnections[uniqueIdentifier];
     }

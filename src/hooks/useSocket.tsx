@@ -42,7 +42,6 @@ const handleSocketIoEventResponse = (eventName: string, prevState: any, serverRe
 };
 
 const defaultOptions = {
-    apiUrl: process.env.SOCKET_API_URL,
     autoDisconnectionEnabled: true,
     storeEmittedEvents: false,
 };
@@ -70,12 +69,14 @@ export const useSocket = (
         reconnect_error: undefined,
         reconnect_failed: false,
     });
+
     // Socket instance here is not going to get created every time. It is going to point to the
     // same instance controlled inside the singleton socket service
     let socketInstance: SocketIOClient.Socket;
     if (isClient()) {
-        socketInstance = SocketService.createConnection(namespace, options.apiUrl, socketIoOptions);
+        socketInstance = SocketService.createConnection(namespace, socketIoOptions);
     }
+
     const registerListeners = useMemo(() => {
         return () => {
             const defaultEvents = Object.values(SOCKET_DEFAULT_EVENTS);
@@ -93,6 +94,7 @@ export const useSocket = (
             });
         };
     }, [eventNames]);
+
     const handleEmit = (eventName: string, args: any[], ack?: () => any) => {
         setData(state => ({ ...state, emitting: true }));
         const emitArgs = [
@@ -108,15 +110,17 @@ export const useSocket = (
         ];
         socketInstance.emit(eventName, ...emitArgs);
     };
+
     useEffect(() => {
         registerListeners();
         return () => {
             if (socketInstance && socketInstance.disconnect && options.autoDisconnectionEnabled) {
-                LoggerService.log(`[Socket] Disconnected from ${options.apiUrl}/${namespace}`);
+                LoggerService.log(`[Socket] Disconnected from /${namespace}`);
                 socketInstance.disconnect();
             }
         };
     }, []);
+
     return {
         connected: socketInstance?.connected || false,
         disconnected: socketInstance?.disconnected || false,
