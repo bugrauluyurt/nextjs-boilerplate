@@ -7,9 +7,6 @@ class SocketService {
     createConnection(namespace: string, options = {}) {
         const uniqueIdentifier = namespace;
         if (this.socketConnections[uniqueIdentifier]) {
-            LoggerService.log(
-                `[Socket] Connection from /${namespace} is not recreated. It already exists. Returning existing instance...`
-            );
             return this.socketConnections[uniqueIdentifier];
         }
         const url = `/${namespace}`;
