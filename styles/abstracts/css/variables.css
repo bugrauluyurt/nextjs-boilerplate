@@ -1,8 +1,8 @@
 /* Default colors */
 :root {
-    --color-primary-1: #fd636b;
-    --color-primary-2: #ffb902;
-    --color-primary-3: #484a6f;
-    --color-primary-4: #6967ce;
-    --color-primary-5: #19afd0;
+    --ds-color-red-1: #fd636b;
+    --ds-color-yellow-1: #ffb902;
+    --ds-color-purple-1: #484a6f;
+    --ds-color-dark-slate-blue-1: #6967ce;
+    --ds-color-blue-1: #19afd0;
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import App, { AppContext } from "next/app";
-import { ReactQueryDevtools } from "react-query-devtools";
 import UserService from "@services/user.service";
 import { get as _get, isEmpty as _isEmpty } from "lodash-es";
 import cookie from "cookie";
+import Locale from "@enums/locale.enum";
 import Head from "next/head";
 import { AxiosRequestConfig } from "axios";
 import NProgress from "nprogress";
@@ -18,7 +18,6 @@ import "../../styles/main.scss";
 import { UserActions } from "../../src/store/user/actions";
 import { IUser } from "../../src/types/user.interface";
 import { LoggerService } from "../../src/services/logger.service";
-import Locale from '@enums/locale.enum';
 
 Router.events.on("routeChangeStart", url => {
     LoggerService.log(`[routeChange] Route change started with ${url}`);
@@ -39,16 +38,13 @@ const MyApp = ({ Component, pageProps }) => {
             <main>
                 <div id="app-root" className="app-root light-theme">
                     <Component {...pageProps} />
-                    <ReactQueryDevtools initialIsOpen={false} />
                 </div>
             </main>
         </>
     );
 };
 
-const setUserToStore = async (
-    appContext: AppContext
-): Promise<IUser | undefined> => {
+const setUserToStore = async (appContext: AppContext): Promise<IUser | undefined> => {
     const rawCookies = _get(appContext, "ctx.req.headers.cookie", "");
     const reqCookies = cookie.parse(rawCookies);
     let user;
@@ -60,9 +56,7 @@ const setUserToStore = async (
             ...reqCookies,
         });
         user = await UserService.getUser(requestConfig).catch(() => undefined);
-        appContext.ctx.store.dispatch(
-            UserActions.SetUser(_isEmpty(user?.data) ? undefined : user.data)
-        );
+        appContext.ctx.store.dispatch(UserActions.SetUser(_isEmpty(user?.data) ? undefined : user.data));
     }
     return user;
 };
@@ -81,13 +75,9 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
     LoggerService.log(`${logPrefix} Router ${appContext?.ctx.asPath} is ${protectedRoute ? "" : "NOT "}a protected route.`);
     if (appContext.ctx?.res && _isEmpty(user) && protectedRoute) {
         const lang = `${appContext?.ctx?.req["language"]}`;
-        LoggerService.log(
-            `[Server] User does not exist. Redirecting to ${lang}/authentication...`
-        );
+        LoggerService.log(`[Server] User does not exist. Redirecting to ${lang}/authentication...`);
         appContext?.ctx?.res.writeHead(301, {
-            Location: `${
-                lang === Locale.EN ? "" : `/${lang}`
-            }/${ROUTE_AUTHENTICATION}`,
+            Location: `${lang === Locale.EN ? "" : `/${lang}`}/${ROUTE_AUTHENTICATION}`,
         });
         appContext?.ctx?.res.end();
     }
