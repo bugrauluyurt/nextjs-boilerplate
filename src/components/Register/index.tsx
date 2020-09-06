@@ -113,7 +113,7 @@ const Register: React.FC<IRegisterComponent.IProps> = ({ t, onEmitClickLogin }):
                 </div>
                 {/* Footer */}
                 <div className="flex items-center justify-between">
-                    <button className="btn btn-primary-4 ripple" type="submit">
+                    <button className="btn btn-primary-1 ripple" type="submit">
                         {state.loading ? `${t("loading")}...` : t("register")}
                     </button>
                     <button

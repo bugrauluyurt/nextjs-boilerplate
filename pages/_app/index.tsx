@@ -11,11 +11,14 @@ import serializeCookies from "@utils/serializeCookies";
 import { ROUTE_AUTHENTICATION } from "@constants/routes.constant";
 import isProtectedRoute from "@utils/isProtectedRoute";
 import { isClient } from "@utils/isClient";
+import { ApolloProvider } from "@apollo/client";
+import { client as apolloClient } from "../../src/graphql";
 import { appWithTranslation, Router } from "../../i18n";
 import wrapper from "../../src/store/store";
 import "../../styles/globals.css";
 import "../../styles/main.scss";
 import { UserActions } from "../../src/store/user/actions";
+
 import { IUser } from "../../src/types/user.interface";
 import { LoggerService } from "../../src/services/logger.service";
 
@@ -37,7 +40,9 @@ const MyApp = ({ Component, pageProps }) => {
             </Head>
             <main>
                 <div id="app-root" className="app-root light-theme">
-                    <Component {...pageProps} />
+                    <ApolloProvider client={apolloClient}>
+                        <Component {...pageProps} />
+                    </ApolloProvider>
                 </div>
             </main>
         </>

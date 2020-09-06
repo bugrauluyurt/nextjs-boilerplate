@@ -3,23 +3,7 @@
 }
 
 .light-theme .btn-primary-1 {
-    background-color: var(--color-primary-1);
-}
-
-.light-theme .btn-primary-2 {
-    background-color: var(--color-primary-2);
-}
-
-.light-theme .btn-primary-3 {
-    background-color: var(--color-primary-3);
-}
-
-.light-theme .btn-primary-4 {
-    background-color: var(--color-primary-4);
-}
-
-.light-theme .btn-primary-5 {
-    background-color: var(--color-primary-5);
+    background-color: var(--ds-color-purple-1);
 }
 
 .ripple {

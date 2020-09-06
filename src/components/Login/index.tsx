@@ -90,7 +90,7 @@ const Login: React.FC<ILoginComponent.IProps> = ({ t, onEmitClickRegister }): JS
                 </div>
                 {/* Footer */}
                 <div className="flex items-center justify-between">
-                    <button className="btn btn-primary-4 ripple" type="submit" disabled={state?.loading}>
+                    <button className="btn btn-primary-1 ripple" type="submit" disabled={state?.loading}>
                         {state?.loading ? `${t("loading")}...` : t("login")}
                     </button>
                     <button
