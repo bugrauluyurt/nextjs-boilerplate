@@ -12,16 +12,17 @@
     --ds-color-gray-3: rgba(255,255,255,.16);
     --ds-color-gray-4: rgb(255 255 255 / 20%);
     --ds-color-gray-5: #fdfdfd;
+    --ds-color-gray-6: #f6f8f9;
     --ds-color-min: #ffffff;
     --ds-color-max: #000000;
 
     /* Shadow */
-    --ds-shadow-1: 0 2px 12px 0 rgba(36,50,66,.075);
+    --ds-shadow-1: 0 1px 4px 0 rgba(21,27,38,.08);
     /* Components */
     --ds-color-editor-aside-bg: var(--ds-color-blue-2);
     --ds-color-editor-aside-icon: var(--ds-color-gray-1);
     --ds-color-editor-aside-list-text: var(--ds-color-gray-2);
     --ds-color-editor-aside-list-bg-selected: var(--ds-color-gray-3);
-    --ds-color-editor-main-bg: var(--ds-color-gray-5);
+    --ds-color-editor-main-bg: var(--ds-color-gray-6);
     --ds-site-header-box-shadow: var(--ds-shadow-1);
 }
