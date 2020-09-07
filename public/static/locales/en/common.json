@@ -15,6 +15,7 @@
   "register": "Register",
   "required": "Required",
   "to-products": "Go to products",
+  "to-editor": "Go to editor",
   "username": "Username",
   "welcome": "Welcome to nextjs-boilerplate",
   "redirecting": "Redirecting please wait...",

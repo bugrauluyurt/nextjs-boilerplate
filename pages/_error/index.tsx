@@ -4,10 +4,7 @@ import { NextPage } from "next";
 import { withTranslation } from "../../i18n";
 import { IErrorPage } from "../../src/types/error-page.interface";
 
-const Error: NextPage<IErrorPage.IProps, IErrorPage.InitialProps> = ({
-    t,
-    statusCode,
-}) => {
+const Error: NextPage<IErrorPage.IProps, IErrorPage.InitialProps> = ({ t, statusCode }) => {
     return (
         <div>
             Error occurred

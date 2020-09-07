@@ -7,6 +7,7 @@ import UserService from "@services/user.service";
 import AuthenticationError from "@components/AuthenticationError";
 import { Router } from "i18n";
 import { useDispatch } from "react-redux";
+import { ROUTE_EDITOR } from "@constants/routes.constant";
 import { InputStyle } from "../../../styles/components/input";
 import { ILoginComponent } from "./login.interface";
 import { withTranslation } from "../../../i18n";
@@ -36,7 +37,7 @@ const Login: React.FC<ILoginComponent.IProps> = ({ t, onEmitClickRegister }): JS
                 .then((user: IUser) => {
                     setState({ ...state, loading: false });
                     dispatch(UserActions.SetUser(user));
-                    Router.push("/");
+                    Router.push(`/${ROUTE_EDITOR}`);
                 })
                 .catch(error => {
                     setState({ ...state, error });

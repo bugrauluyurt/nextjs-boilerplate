@@ -1,17 +1,19 @@
+/* eslint-disable camelcase */
 import { useState, useEffect, useMemo } from "react";
 import { isArray } from "lodash-es";
 import { isClient } from "@utils/isClient";
 import SocketService from "../services/socket.service";
 import { LoggerService } from "../services/logger.service";
 import { SOCKET_NS_GENERIC_EVENTS } from "../constants/socket/ns-generic.constant";
+import { SocketData } from "../types/socket.interface";
 
-const handleConnect = (socketInstance: SocketIOClient.Socket) => {
+const handleConnect = (socketInstance: SocketIOClient.Socket): void => {
     if (!socketInstance.connected) {
         socketInstance.connect();
     }
 };
 
-const handleDisconnect = (socketInstance: SocketIOClient.Socket) => {
+const handleDisconnect = (socketInstance: SocketIOClient.Socket): void => {
     if (!socketInstance.disconnected) {
         socketInstance.disconnect();
     }
@@ -45,13 +47,14 @@ export const useSocket = (
     eventNames: string[] = [],
     customOptions = defaultOptions,
     socketIoOptions = {}
-) => {
+): SocketData => {
     const options = useMemo(() => {
         return { ...defaultOptions, ...customOptions };
     }, [customOptions]);
     const [data, setData] = useState({
         events: { client: {}, server: {} },
-        connect: false,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        connect: () => {},
         connect_error: undefined,
         connect_timeout: false,
         reconnect: 0,

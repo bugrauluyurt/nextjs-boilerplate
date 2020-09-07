@@ -13,6 +13,7 @@ import { withTranslation, Router } from "../../../i18n";
 import { InputStyle } from "../../../styles/components/input";
 import { UserActions } from "../../store/user/actions";
 import { IUser } from "../../types/user.interface";
+import { ROUTE_EDITOR } from '@constants/routes.constant';
 
 const Register: React.FC<IRegisterComponent.IProps> = ({ t, onEmitClickLogin }): JSX.Element => {
     const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const Register: React.FC<IRegisterComponent.IProps> = ({ t, onEmitClickLogin }):
                     }
                     setState({ ...state, loading: false });
                     dispatch(UserActions.SetUser(user));
-                    Router.push("/");
+                    Router.push(`/${ROUTE_EDITOR}`);
                 })
                 .catch(error => {
                     setState({ ...state, error });
