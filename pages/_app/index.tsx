@@ -39,7 +39,7 @@ const MyApp = ({ Component, pageProps }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <div id="app-root" className="app-root light-theme">
+                <div id="app-root" className="app-root ds-light-mode">
                     <ApolloProvider client={apolloClient}>
                         <Component {...pageProps} />
                     </ApolloProvider>

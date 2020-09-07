@@ -1,8 +1,14 @@
 /* Default colors */
-:root {
+:root, .ds-light-mode {
+    /* Colors */
     --ds-color-red-1: #fd636b;
     --ds-color-yellow-1: #ffb902;
     --ds-color-purple-1: #484a6f;
     --ds-color-dark-slate-blue-1: #6967ce;
     --ds-color-blue-1: #19afd0;
+    --ds-color-blue-2: #141a26;
+    --ds-color-min: #ffffff;
+    --ds-color-max: #000000;
+    /* Other */
+    --ds-editor-aside-bg: var(--ds-color-blue-2);
 }

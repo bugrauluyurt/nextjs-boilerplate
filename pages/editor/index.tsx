@@ -1,21 +1,15 @@
 import React from "react";
-import { compose } from "redux";
+import dynamic from "next/dynamic";
 import { isClient } from "@utils/isClient";
-import EditorAside from "@components/EditorAside";
-import styles from "./editor.module.scss";
-import { withTranslation } from "../../i18n";
-import withRouteProtection from "../../src/components/HOCs/withRouteProtection";
-import { LoggerService } from "../../src/services/logger.service";
+import { LoggerService } from "@services/logger.service";
+import { compose } from "redux";
+import withRouteProtection from "@components/HOCs/withRouteProtection";
+import { withTranslation, Router } from "../../i18n";
 
-const Editor = ({ t }): JSX.Element => {
-    return (
-        <div className={styles["editor-container"]}>
-            <div className={styles["editor-aside-container"]}>
-                <EditorAside />
-            </div>
-            <div className={styles["editor-main-container"]}>[Editor-Main-Container]</div>
-        </div>
-    );
+const EditorComponentWithNoSSR = dynamic(() => import("../../src/components/Editor"), { ssr: false });
+
+const Editor = ({ t, i18n }): JSX.Element => {
+    return <EditorComponentWithNoSSR />;
 };
 
 Editor.getInitialProps = async () => {

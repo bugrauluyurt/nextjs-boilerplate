@@ -1,0 +1,36 @@
+@import 'abstracts/_breakpoints';
+
+$aside-lg-width: 20rem;
+
+.editor-container {
+    height: 100vh;
+    .editor-aside-container {
+        background-color: var(--ds-editor-aside-bg);
+        height: 100%;
+        left: -100%;
+        position: fixed;
+        top: 0;
+        transition: 0.3s all ease;
+        width: 100%;
+        @include for-tablet-landscape-up {
+            left: -$aside-lg-width;
+            width: $aside-lg-width;
+        }
+    }
+    .editor-main-container {
+        background-color: #fdfdfd;
+        height: 100%;
+        transition: 0.2s all ease-in-out;
+        width: 100%;
+    }
+    &.open {
+        .editor-aside-container {
+            left: 0;
+        }
+        .editor-main-container {
+            margin-left: $aside-lg-width;
+            width: calc(100% - #{$aside-lg-width})
+        }
+    }
+}
+

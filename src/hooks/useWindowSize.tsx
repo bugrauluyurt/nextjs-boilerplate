@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { clone } from "lodash-es";
 import { isBigDesktopUp, isDesktopUp, isPhone, isTabletLandscapeUp, isTabletPortraitUp } from "@utils/breakPoints";
+import { isClient } from "@utils/isClient";
 import { IUseWindowSizeHook, IWindowSize } from "./useWindowSize.d";
 
 class WindowSizeDetail {
@@ -26,7 +27,7 @@ class WindowSizeDetail {
     }
 }
 
-const getSize = window ? () => [window.innerWidth, window.innerHeight] : () => [0, 0];
+const getSize = window ? () => [window?.innerWidth, window?.innerHeight] : () => [0, 0];
 
 export const useWindowSize = (shouldListenWindowSize = false): IUseWindowSizeHook => {
     const [windowSize, setWindowSize] = useState({
@@ -35,7 +36,7 @@ export const useWindowSize = (shouldListenWindowSize = false): IUseWindowSizeHoo
     } as IWindowSize);
 
     useEffect(() => {
-        if (!window) {
+        if (!isClient()) {
             return;
         }
         const handleResize = () => {
