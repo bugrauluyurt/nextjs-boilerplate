@@ -20,5 +20,6 @@
   "welcome": "Welcome to nextjs-boilerplate",
   "redirecting": "Redirecting please wait...",
   "all-rights-reserved": "All rights reserved.",
-  "product-logo": "Product logo"
+  "product-logo": "Product logo",
+  "home": "Home"
 }

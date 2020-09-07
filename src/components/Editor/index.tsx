@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useWindowSize } from "@hooks/useWindowSize";
 import EditorAside from "@components/EditorAside";
 import classNames from "classnames";
+import EditorHeader from "@components/EditorHeader";
+import EditorBody from "@components/EditorBody";
 import { withTranslation } from "../../../i18n";
 import styles from "./editor.module.scss";
 
@@ -27,6 +29,8 @@ const Editor = ({ t }): JSX.Element => {
         }
     }, [isCurrentTableLandscapeUp]);
 
+    const onToggleHandle = () => setAsideState(!isAsideOpen);
+
     return (
         <div
             className={classNames(styles["editor-container"], {
@@ -34,9 +38,12 @@ const Editor = ({ t }): JSX.Element => {
             })}
         >
             <div className={styles["editor-aside-container"]}>
-                <EditorAside onToggle={() => setAsideState(!isAsideOpen)} />
+                <EditorAside onToggle={onToggleHandle} />
             </div>
-            <div className={styles["editor-main-container"]}>[Editor-Main-Container]</div>
+            <div className={styles["editor-main-container"]}>
+                <EditorHeader onToggle={onToggleHandle} isAsideOpen={isAsideOpen} />
+                <EditorBody />
+            </div>
         </div>
     );
 };

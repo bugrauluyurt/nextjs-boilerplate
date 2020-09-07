@@ -1,11 +1,11 @@
 @import 'abstracts/_breakpoints';
 
-$aside-lg-width: 20rem;
+$aside-lg-width: 15rem;
 
 .editor-container {
     height: 100vh;
     .editor-aside-container {
-        background-color: var(--ds-editor-aside-bg);
+        background-color: var(--ds-color-editor-aside-bg);
         height: 100%;
         left: -100%;
         position: fixed;

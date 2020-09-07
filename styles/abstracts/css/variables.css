@@ -7,8 +7,19 @@
     --ds-color-dark-slate-blue-1: #6967ce;
     --ds-color-blue-1: #19afd0;
     --ds-color-blue-2: #141a26;
+    --ds-color-gray-1: #9ca6af;
+    --ds-color-gray-2: #cbd4db;
+    --ds-color-gray-3: rgba(255,255,255,.16);
+    --ds-color-gray-4: rgb(255 255 255 / 20%);
     --ds-color-min: #ffffff;
     --ds-color-max: #000000;
-    /* Other */
-    --ds-editor-aside-bg: var(--ds-color-blue-2);
+
+    /* Shadow */
+    --ds-shadow-1: 0 2px 12px 0 rgba(36,50,66,.075);
+    /* Components */
+    --ds-color-editor-aside-bg: var(--ds-color-blue-2);
+    --ds-color-editor-aside-icon: var(--ds-color-gray-1);
+    --ds-color-editor-aside-list-text: var(--ds-color-gray-2);
+    --ds-color-editor-aside-list-bg-selected: var(--ds-color-gray-3);
+    --ds-site-header-box-shadow: var(--ds-shadow-1);
 }

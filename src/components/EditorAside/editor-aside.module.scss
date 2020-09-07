@@ -1,14 +1,26 @@
-.editor-aside-header {
-    padding: 1rem;
+.header {
+    padding: 0 0 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     img {
-        width: 9rem;
+        width: 7.5rem;
     }
 }
 
-.editor-aside-close {
-    position: absolute;
+.close {
     right: 0;
     top: 0;
     color: var(--ds-color-min);
-    padding: 1rem;
+    padding: 1.3rem 1rem;
+    span svg {
+        width: 1.4rem;
+        color: var(--ds-color-editor-aside-icon);
+    }
+    span:first-child svg {
+        width: 0.8rem;
+    }
+    &:hover span svg {
+        color: var(--ds-color-min);
+    }
 }

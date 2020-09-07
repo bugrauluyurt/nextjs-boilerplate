@@ -1,0 +1,32 @@
+@import 'abstracts/variables';
+
+.container {
+    box-shadow: var(--ds-site-header-box-shadow);
+    justify-content: space-between;
+    align-items: center;
+    height: $editor-header-height;
+}
+
+.menu-toggle {
+    padding: 1rem 0.4rem;
+}
+
+.right, .left {
+    display: flex;
+    align-items: center;
+}
+
+.right {
+    justify-content: flex-end;
+}
+
+.left {
+    justify-content: flex-start;
+}
+
+.title {
+    font-weight: 500;
+    text-transform: capitalize;
+    font-size: 1.2rem;
+    padding-left: 0.8rem;
+}
