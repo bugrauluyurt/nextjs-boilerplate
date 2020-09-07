@@ -5,6 +5,7 @@
     justify-content: space-between;
     align-items: center;
     height: $editor-header-height;
+    background: var(--ds-color-min);
 }
 
 .menu-toggle {
@@ -27,6 +28,6 @@
 .title {
     font-weight: 500;
     text-transform: capitalize;
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding-left: 0.8rem;
 }

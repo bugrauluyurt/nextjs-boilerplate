@@ -18,7 +18,7 @@ $aside-lg-width: 15rem;
         }
     }
     .editor-main-container {
-        background-color: #fdfdfd;
+        background-color: var(--ds-color-editor-main-bg);
         height: 100%;
         transition: 0.2s all ease-in-out;
         width: 100%;
