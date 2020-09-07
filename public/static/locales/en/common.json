@@ -19,5 +19,6 @@
   "username": "Username",
   "welcome": "Welcome to nextjs-boilerplate",
   "redirecting": "Redirecting please wait...",
-  "all-rights-reserved": "All rights reserved."
+  "all-rights-reserved": "All rights reserved.",
+  "product-logo": "Product logo"
 }

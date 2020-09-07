@@ -1,6 +1,6 @@
 declare namespace IImageComponent {
     export interface IProps {
-        url: string;
+        src: string;
         className?: string;
         onLoad?: (any) => void;
         alt: string;
